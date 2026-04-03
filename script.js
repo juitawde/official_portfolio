@@ -246,6 +246,54 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.transition = 'transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)';
         });
     });
+
+    /* --- AJAX Contact Form Submission --- */
+    const contactForm = document.getElementById('contact-form');
+    const formSuccess = document.getElementById('form-success');
+
+    if (contactForm && formSuccess) {
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Show loading state on button
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = 'SENDING...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(contactForm);
+
+            fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        contactForm.style.display = 'none';
+                        formSuccess.style.display = 'block';
+                        contactForm.reset();
+                    } else {
+                        return response.json().then(data => {
+                            if (Object.hasOwn(data, 'errors')) {
+                                alert(data["errors"].map(error => error["message"]).join(", "));
+                            } else {
+                                alert("Oops! There was a problem submitting your form");
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    alert("Oops! There was a problem submitting your form");
+                })
+                .finally(() => {
+                    submitBtn.innerText = originalBtnText;
+                    submitBtn.disabled = false;
+                });
+        });
+    }
 });
 
 /* --- Certificate Unlock System --- */
@@ -253,11 +301,11 @@ let currentCertType = '';
 let currentCertIndex = 0;
 const certData = {
     'hsc': [
-        { title: '10th Marksheet (SSC)', file: 'WhatsApp Image 2025-12-21 at 17.35.04 copy.jpeg' },
-        { title: '12th Marksheet (HSC)', file: 'WhatsApp Image 2025-12-21 at 17.21.39 copy.jpeg' }
+        { title: '10th Marksheet (SSC)', file: 'WhatsApp%20Image%202025-12-21%20at%2017.35.04 copy.jpeg' },
+        { title: '12th Marksheet (HSC)', file: 'WhatsApp%20Image%202025-12-21%20at%2017.21.39 copy.jpeg' }
     ],
     'btech': [
-        { title: 'HTML Course Certificate', file: 'Screenshot 2026-02-24 at 12.28.59 AM copy.png' }
+        { title: 'HTML Course Certificate', file: 'Screenshot%202026-02-24%20at%2012.28.59%E2%80%AFAM copy.png' }
     ]
 };
 
@@ -384,5 +432,15 @@ window.closeCVModal = function () {
     if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = '';
+    }
+};
+
+/* --- Reset Contact Form UI --- */
+window.resetContactForm = function () {
+    const contactForm = document.getElementById('contact-form');
+    const formSuccess = document.getElementById('form-success');
+    if (contactForm && formSuccess) {
+        formSuccess.style.display = 'none';
+        contactForm.style.display = 'grid'; // Grid matches the .form-grid class
     }
 };

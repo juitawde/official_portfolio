@@ -662,10 +662,12 @@
                                 <span class="italic">connect</span>
                             </h3>
                         </div>
-                        <form action="https://formsubmit.co/juitawde23@gmail.com" method="POST" class="form-grid">
+                        <form action="https://formsubmit.co/juitawde23@gmail.com" id="contact-form" method="POST"
+                            class="form-grid">
                             <!-- Anti-spam -->
                             <input type="hidden" name="_captcha" value="false">
                             <input type="hidden" name="_template" value="table">
+                            <input type="hidden" name="_next" value="https://juitawde.github.io/official_portfolio/">
 
                             <div class="form-group">
                                 <label for="name">Name</label>
@@ -690,6 +692,15 @@
                             </div>
                             <button type="submit" class="submit-btn full-width">Submit</button>
                         </form>
+                        <div id="form-success"
+                            style="display: none; padding: 3rem 1rem; text-align: center; border: none !important; background: none !important; box-shadow: none !important;">
+                            <h3 style="font-size: 2rem; color: var(--text-main); margin-bottom: 1.9rem;">Message Sent!
+                            </h3>
+                            <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 400px; margin: 0 auto;">
+                                Thank you for reaching out. I'll get back to you as soon as possible.</p>
+                            <button onclick="resetContactForm()" class="unlock-btn"
+                                style="margin-top: 2rem; display: inline-flex;">Send Another Message</button>
+                        </div>
                     </div>
                 </div>
             </div>
